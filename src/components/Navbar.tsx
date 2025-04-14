@@ -1,8 +1,16 @@
 
 import React, { useState } from 'react';
-import { Menu, X, Train, Bell, User, Globe, PhoneCall } from 'lucide-react';
+import { Menu, X, Train, Bell, UserPlus, Globe, PhoneCall } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,12 +59,33 @@ const Navbar = () => {
             <Button variant="ghost" size="icon" className="text-gray-600 hover:text-irctc-blue">
               <Bell className="h-5 w-5" />
             </Button>
-            <Link to="/login">
-              <Button variant="outline" className="flex items-center space-x-2 border-irctc-blue text-irctc-blue hover:bg-irctc-blue hover:text-white">
-                <User className="h-4 w-4" />
-                <span>Login</span>
-              </Button>
-            </Link>
+            
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="bg-irctc-blue text-white hover:bg-irctc-blue/90">
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    Account
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="w-[200px] p-4 md:w-[220px]">
+                      <div className="flex flex-col space-y-2">
+                        <Link to="/login">
+                          <Button variant="ghost" className="w-full justify-start">
+                            Login
+                          </Button>
+                        </Link>
+                        <Link to="/signup">
+                          <Button variant="ghost" className="w-full justify-start">
+                            Sign Up
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
           {/* Mobile Menu Button */}
@@ -79,11 +108,15 @@ const Navbar = () => {
             <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Hotels</a>
             <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">About</a>
             <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Contact</a>
-            <div className="flex items-center space-x-4 px-4 pt-2">
+            <div className="flex flex-col space-y-2 px-4 pt-2">
               <Link to="/login">
-                <Button variant="outline" className="flex items-center space-x-2 border-irctc-blue text-irctc-blue">
-                  <User className="h-4 w-4" />
-                  <span>Login</span>
+                <Button variant="outline" className="w-full justify-start border-irctc-blue text-irctc-blue">
+                  Login
+                </Button>
+              </Link>
+              <Link to="/signup">
+                <Button variant="outline" className="w-full justify-start border-irctc-blue text-irctc-blue">
+                  Sign Up
                 </Button>
               </Link>
             </div>

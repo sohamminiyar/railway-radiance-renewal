@@ -3,7 +3,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import TrainSearchForm from './TrainSearchForm';
 import { Button } from '@/components/ui/button';
-import { UserPlus } from 'lucide-react';
 
 const HeroSection = () => {
   return (
@@ -32,14 +31,8 @@ const HeroSection = () => {
               </p>
               <div className="flex gap-3">
                 <Link to="/login">
-                  <Button variant="outline" className="bg-white text-irctc-blue hover:bg-gray-100">
-                    Login
-                  </Button>
-                </Link>
-                <Link to="/signup">
                   <Button className="bg-irctc-yellow text-irctc-blue hover:bg-irctc-yellow/90">
-                    <UserPlus className="mr-2 h-4 w-4" />
-                    Sign Up
+                    Get Started
                   </Button>
                 </Link>
               </div>
