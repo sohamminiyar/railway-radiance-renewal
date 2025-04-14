@@ -10,6 +10,11 @@ import SignupPage from "./pages/SignupPage";
 import TrainResults from "./pages/TrainResults";
 import NotFound from "./pages/NotFound";
 import DestinationDetail from "./components/DestinationDetail";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
+import TrainsPage from "./pages/TrainsPage";
+import HolidaysPage from "./pages/HolidaysPage";
+import HotelsPage from "./pages/HotelsPage";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +30,11 @@ const App = () => (
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/train-results" element={<TrainResults />} />
           <Route path="/destination/:id" element={<DestinationDetail />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/trains" element={<TrainsPage />} />
+          <Route path="/holidays" element={<HolidaysPage />} />
+          <Route path="/hotels" element={<HotelsPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

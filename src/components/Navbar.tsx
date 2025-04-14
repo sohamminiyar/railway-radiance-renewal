@@ -47,11 +47,11 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             <Link to="/" className="text-gray-700 font-medium hover:text-irctc-blue">Home</Link>
-            <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue">Trains</a>
-            <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue">Holidays</a>
-            <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue">Hotels</a>
-            <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue">About</a>
-            <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue">Contact</a>
+            <Link to="/trains" className="text-gray-700 font-medium hover:text-irctc-blue">Trains</Link>
+            <Link to="/holidays" className="text-gray-700 font-medium hover:text-irctc-blue">Holidays</Link>
+            <Link to="/hotels" className="text-gray-700 font-medium hover:text-irctc-blue">Hotels</Link>
+            <Link to="/about" className="text-gray-700 font-medium hover:text-irctc-blue">About</Link>
+            <Link to="/contact" className="text-gray-700 font-medium hover:text-irctc-blue">Contact</Link>
           </nav>
 
           {/* User Actions */}
@@ -103,11 +103,11 @@ const Navbar = () => {
         <div className="md:hidden bg-white border-t py-4">
           <div className="container flex flex-col space-y-4">
             <Link to="/" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Home</Link>
-            <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Trains</a>
-            <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Holidays</a>
-            <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Hotels</a>
-            <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">About</a>
-            <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Contact</a>
+            <Link to="/trains" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Trains</Link>
+            <Link to="/holidays" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Holidays</Link>
+            <Link to="/hotels" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Hotels</Link>
+            <Link to="/about" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">About</Link>
+            <Link to="/contact" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Contact</Link>
             <div className="flex flex-col space-y-2 px-4 pt-2">
               <Link to="/login">
                 <Button variant="outline" className="w-full justify-start border-irctc-blue text-irctc-blue">
