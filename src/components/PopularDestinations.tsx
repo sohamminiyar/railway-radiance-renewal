@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const destinations = [
   {
@@ -8,28 +9,32 @@ const destinations = [
     name: "Delhi",
     description: "Explore the rich history and culture of India's capital",
     image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    price: "₹999"
+    price: "₹999",
+    slug: "delhi"
   },
   {
     id: 2,
     name: "Agra",
     description: "Visit the iconic Taj Mahal, a monument of eternal love",
     image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    price: "₹1299"
+    price: "₹1299",
+    slug: "agra"
   },
   {
     id: 3,
     name: "Jaipur",
     description: "The Pink City known for its stunning royal heritage",
     image: "https://images.unsplash.com/photo-1477587458883-47145ed94245?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    price: "₹1499"
+    price: "₹1499",
+    slug: "jaipur"
   },
   {
     id: 4,
     name: "Varanasi",
     description: "Experience the spiritual heart of India on the banks of Ganges",
     image: "https://images.unsplash.com/photo-1561361058-c12e04bd9c4d?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    price: "₹1799"
+    price: "₹1799",
+    slug: "varanasi"
   }
 ];
 
@@ -64,13 +69,13 @@ const PopularDestinations = () => {
               <div className="p-5">
                 <h3 className="text-xl font-bold text-gray-800 mb-2">{destination.name}</h3>
                 <p className="text-gray-600 mb-4 text-sm">{destination.description}</p>
-                <a 
-                  href="#" 
+                <Link 
+                  to={`/destination/${destination.slug}`}
                   className="inline-flex items-center text-irctc-blue font-medium hover:text-irctc-light-blue"
                 >
                   Book now
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
+                </Link>
               </div>
             </div>
           ))}
