@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Menu, X, Train, Bell, User, Globe, PhoneCall } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,14 +31,14 @@ const Navbar = () => {
       <div className="container py-3">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <a href="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2">
             <Train className="h-8 w-8 text-irctc-blue" />
             <span className="text-xl font-bold text-irctc-blue">IRCTC</span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue">Home</a>
+            <Link to="/" className="text-gray-700 font-medium hover:text-irctc-blue">Home</Link>
             <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue">Trains</a>
             <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue">Holidays</a>
             <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue">Hotels</a>
@@ -50,10 +51,12 @@ const Navbar = () => {
             <Button variant="ghost" size="icon" className="text-gray-600 hover:text-irctc-blue">
               <Bell className="h-5 w-5" />
             </Button>
-            <Button variant="outline" className="flex items-center space-x-2 border-irctc-blue text-irctc-blue hover:bg-irctc-blue hover:text-white">
-              <User className="h-4 w-4" />
-              <span>Login</span>
-            </Button>
+            <Link to="/login">
+              <Button variant="outline" className="flex items-center space-x-2 border-irctc-blue text-irctc-blue hover:bg-irctc-blue hover:text-white">
+                <User className="h-4 w-4" />
+                <span>Login</span>
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -70,17 +73,19 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t py-4">
           <div className="container flex flex-col space-y-4">
-            <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Home</a>
+            <Link to="/" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Home</Link>
             <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Trains</a>
             <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Holidays</a>
             <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Hotels</a>
             <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">About</a>
             <a href="#" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Contact</a>
             <div className="flex items-center space-x-4 px-4 pt-2">
-              <Button variant="outline" className="flex items-center space-x-2 border-irctc-blue text-irctc-blue">
-                <User className="h-4 w-4" />
-                <span>Login</span>
-              </Button>
+              <Link to="/login">
+                <Button variant="outline" className="flex items-center space-x-2 border-irctc-blue text-irctc-blue">
+                  <User className="h-4 w-4" />
+                  <span>Login</span>
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

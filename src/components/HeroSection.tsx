@@ -1,6 +1,9 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import TrainSearchForm from './TrainSearchForm';
+import { Button } from '@/components/ui/button';
+import { UserPlus } from 'lucide-react';
 
 const HeroSection = () => {
   return (
@@ -24,9 +27,22 @@ const HeroSection = () => {
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3">
                 Book Your Journey<br />Across India
               </h1>
-              <p className="text-lg opacity-90">
+              <p className="text-lg opacity-90 mb-4">
                 Experience comfortable and affordable travel with Indian Railways
               </p>
+              <div className="flex gap-3">
+                <Link to="/login">
+                  <Button variant="outline" className="bg-white text-irctc-blue hover:bg-gray-100">
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button className="bg-irctc-yellow text-irctc-blue hover:bg-irctc-yellow/90">
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    Sign Up
+                  </Button>
+                </Link>
+              </div>
             </div>
             <div className="animate-slide-up">
               <TrainSearchForm />

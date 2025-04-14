@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,10 +13,12 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 
 const TrainSearchForm = () => {
+  const navigate = useNavigate();
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [journeyType, setJourneyType] = useState("one-way");
   const [from, setFrom] = useState("New Delhi");
   const [to, setTo] = useState("Mumbai");
+  const [travelClass, setTravelClass] = useState("sleeper");
 
   const handleSwapStations = () => {
     const temp = from;
@@ -30,8 +33,16 @@ const TrainSearchForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle search submission
-    console.log({ from, to, date, journeyType });
+    // Navigate to results page with search parameters
+    navigate('/train-results', {
+      state: {
+        from,
+        to,
+        date: date ? format(date, 'yyyy-MM-dd') : '',
+        journeyType,
+        travelClass
+      }
+    });
   };
 
   return (
@@ -135,7 +146,7 @@ const TrainSearchForm = () => {
             <Label htmlFor="class" className="text-sm font-medium">
               Travel Class
             </Label>
-            <Select defaultValue="sleeper">
+            <Select defaultValue={travelClass} onValueChange={setTravelClass}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select class" />
               </SelectTrigger>
