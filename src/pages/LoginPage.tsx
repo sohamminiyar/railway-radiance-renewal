@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,24 +16,38 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get email from location state if coming from signup
+  useEffect(() => {
+    if (location.state?.email) {
+      setEmail(location.state.email);
+    }
+  }, [location.state]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Mock login - in real app, would connect to backend
+    // Check local storage for user credentials
+    const storedUsers = JSON.parse(localStorage.getItem('irctcUsers') || '[]');
+    const user = storedUsers.find((u: any) => u.email === email);
+    
     setTimeout(() => {
-      if (email === 'user@example.com' && password === 'password') {
+      if (user && user.password === password) {
+        // Store logged in user info
+        localStorage.setItem('currentUser', JSON.stringify({ email: user.email, name: user.name }));
+        
         toast({
           title: "Login successful",
-          description: "Welcome back to IRCTC!",
+          description: `Welcome back ${user.name || ''}!`,
         });
         navigate('/');
       } else {
         toast({
           variant: "destructive",
           title: "Login failed",
-          description: "Invalid email or password. Try user@example.com / password",
+          description: "Invalid email or password. Please try again or sign up if you don't have an account.",
         });
       }
       setIsLoading(false);

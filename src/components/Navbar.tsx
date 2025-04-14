@@ -1,8 +1,9 @@
 
-import React, { useState } from 'react';
-import { Menu, X, Train, Bell, UserPlus, Globe, PhoneCall } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Menu, X, Train, Bell, UserPlus, Globe, PhoneCall, LogOut } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useToast } from "@/components/ui/use-toast";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,6 +15,32 @@ import {
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<{ name?: string; email?: string } | null>(null);
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check localStorage for logged in user
+    const userStr = localStorage.getItem('currentUser');
+    if (userStr) {
+      setCurrentUser(JSON.parse(userStr));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    // Remove user from localStorage
+    localStorage.removeItem('currentUser');
+    setCurrentUser(null);
+    
+    // Show toast notification
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out.",
+    });
+    
+    // Navigate to home page
+    navigate('/');
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
@@ -65,21 +92,35 @@ const Navbar = () => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="bg-irctc-blue text-white hover:bg-irctc-blue/90">
                     <UserPlus className="mr-2 h-4 w-4" />
-                    Account
+                    {currentUser ? currentUser.name || 'Account' : 'Account'}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="w-[200px] p-4 md:w-[220px]">
                       <div className="flex flex-col space-y-2">
-                        <Link to="/login">
-                          <Button variant="ghost" className="w-full justify-start">
-                            Login
-                          </Button>
-                        </Link>
-                        <Link to="/signup">
-                          <Button variant="ghost" className="w-full justify-start">
-                            Sign Up
-                          </Button>
-                        </Link>
+                        {currentUser ? (
+                          <>
+                            <div className="px-2 py-1 font-medium">
+                              {currentUser.email}
+                            </div>
+                            <Button variant="ghost" className="w-full justify-start" onClick={handleLogout}>
+                              <LogOut className="mr-2 h-4 w-4" />
+                              Logout
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <Link to="/login">
+                              <Button variant="ghost" className="w-full justify-start">
+                                Login
+                              </Button>
+                            </Link>
+                            <Link to="/signup">
+                              <Button variant="ghost" className="w-full justify-start">
+                                Sign Up
+                              </Button>
+                            </Link>
+                          </>
+                        )}
                       </div>
                     </div>
                   </NavigationMenuContent>
@@ -108,17 +149,36 @@ const Navbar = () => {
             <Link to="/hotels" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Hotels</Link>
             <Link to="/about" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">About</Link>
             <Link to="/contact" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Contact</Link>
+            
             <div className="flex flex-col space-y-2 px-4 pt-2">
-              <Link to="/login">
-                <Button variant="outline" className="w-full justify-start border-irctc-blue text-irctc-blue">
-                  Login
-                </Button>
-              </Link>
-              <Link to="/signup">
-                <Button variant="outline" className="w-full justify-start border-irctc-blue text-irctc-blue">
-                  Sign Up
-                </Button>
-              </Link>
+              {currentUser ? (
+                <>
+                  <div className="px-2 py-1 font-medium border-t pt-4">
+                    Logged in as: {currentUser.name || currentUser.email}
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start border-irctc-blue text-irctc-blue"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login">
+                    <Button variant="outline" className="w-full justify-start border-irctc-blue text-irctc-blue">
+                      Login
+                    </Button>
+                  </Link>
+                  <Link to="/signup">
+                    <Button variant="outline" className="w-full justify-start border-irctc-blue text-irctc-blue">
+                      Sign Up
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

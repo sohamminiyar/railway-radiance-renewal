@@ -35,13 +35,37 @@ const SignupPage = () => {
     
     setIsLoading(true);
     
-    // Mock signup - in real app, would connect to backend
+    // Save user to localStorage
+    const newUser = { name, email, mobile, password };
+    
+    // Get existing users or initialize empty array
+    const existingUsers = JSON.parse(localStorage.getItem('irctcUsers') || '[]');
+    
+    // Check if user with this email already exists
+    const userExists = existingUsers.some((user: any) => user.email === email);
+    
+    if (userExists) {
+      toast({
+        variant: "destructive",
+        title: "Email already in use",
+        description: "This email is already registered. Please login instead.",
+      });
+      setIsLoading(false);
+      return;
+    }
+    
+    // Add new user and save back to localStorage
+    existingUsers.push(newUser);
+    localStorage.setItem('irctcUsers', JSON.stringify(existingUsers));
+    
     setTimeout(() => {
       toast({
         title: "Account created",
-        description: "Welcome to IRCTC! You can now login.",
+        description: "Welcome to IRCTC! You can now login with your credentials.",
       });
-      navigate('/login');
+      
+      // Navigate to login with email pre-filled
+      navigate('/login', { state: { email } });
       setIsLoading(false);
     }, 1000);
   };
