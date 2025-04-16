@@ -9,6 +9,57 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      bookings: {
+        Row: {
+          booking_status: string
+          created_at: string
+          fare: number
+          from_station: string
+          id: string
+          passenger_age: number
+          passenger_name: string
+          pnr: string
+          to_station: string
+          train_name: string
+          train_number: string
+          travel_class: string
+          travel_date: string
+          user_id: string
+        }
+        Insert: {
+          booking_status?: string
+          created_at?: string
+          fare: number
+          from_station: string
+          id?: string
+          passenger_age: number
+          passenger_name: string
+          pnr: string
+          to_station: string
+          train_name: string
+          train_number: string
+          travel_class: string
+          travel_date: string
+          user_id: string
+        }
+        Update: {
+          booking_status?: string
+          created_at?: string
+          fare?: number
+          from_station?: string
+          id?: string
+          passenger_age?: number
+          passenger_name?: string
+          pnr?: string
+          to_station?: string
+          train_name?: string
+          train_number?: string
+          travel_class?: string
+          travel_date?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -38,7 +89,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_pnr: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never

@@ -16,11 +16,14 @@ import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
+import BookingForm from '@/components/BookingForm';
 
 const TrainResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
   const searchParams = location.state || {
     from: "New Delhi",
     to: "Mumbai",
@@ -35,6 +38,18 @@ const TrainResults = () => {
     searchParams.date ? parseISO(searchParams.date) : new Date()
   );
   const [selectedClass, setSelectedClass] = useState(searchParams.travelClass);
+  
+  // Booking state
+  const [bookingOpen, setBookingOpen] = useState(false);
+  const [selectedTrain, setSelectedTrain] = useState<{
+    trainNumber: string;
+    trainName: string;
+    departureStation: string;
+    arrivalStation: string;
+    date: Date;
+    className: string;
+    fare: number;
+  } | null>(null);
 
   // Get trains data based on search parameters
   const trains = getTrainsData(from, to);
@@ -53,13 +68,28 @@ const TrainResults = () => {
     navigate('/train-results', { state: newParams });
   };
 
-  const handleBookNow = (train: Train, className: string) => {
-    toast({
-      title: "Booking Initiated",
-      description: `You selected ${train.trainName} (${train.trainNumber}) - ${className}. Login to continue.`,
+  const handleBookNow = (train: Train, className: string, fare: number) => {
+    if (!user) {
+      toast({
+        title: "Authentication required",
+        description: "Please login to book tickets",
+        variant: "destructive"
+      });
+      navigate('/login');
+      return;
+    }
+    
+    setSelectedTrain({
+      trainNumber: train.trainNumber,
+      trainName: train.trainName,
+      departureStation: train.departureStation,
+      arrivalStation: train.arrivalStation,
+      date: date || new Date(),
+      className: className,
+      fare: fare
     });
-    // In a real app, would navigate to booking page or login if not authenticated
-    navigate('/login');
+    
+    setBookingOpen(true);
   };
 
   const popularCities = [
@@ -280,7 +310,8 @@ const TrainResults = () => {
                           <Button 
                             size="sm" 
                             className="w-full mt-2 bg-irctc-blue hover:bg-irctc-light-blue"
-                            onClick={() => handleBookNow(train, cls.name)}
+                            onClick={() => handleBookNow(train, cls.name, cls.fare)}
+                            disabled={cls.availability === "Not Available"}
                           >
                             Book Now
                           </Button>
@@ -306,6 +337,15 @@ const TrainResults = () => {
           </div>
         </div>
       </main>
+      
+      {/* Booking Form Dialog */}
+      {selectedTrain && (
+        <BookingForm 
+          isOpen={bookingOpen} 
+          onClose={() => setBookingOpen(false)} 
+          trainDetails={selectedTrain}
+        />
+      )}
       
       <Footer />
     </div>

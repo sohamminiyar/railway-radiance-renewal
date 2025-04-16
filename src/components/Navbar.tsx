@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Menu, X, Train, Bell, UserPlus, Globe, PhoneCall, LogOut } from 'lucide-react';
+import { Menu, X, Train, Bell, UserPlus, Globe, PhoneCall, LogOut, Ticket } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -59,6 +59,13 @@ const Navbar = () => {
             <Link to="/hotels" className="text-gray-700 font-medium hover:text-irctc-blue">Hotels</Link>
             <Link to="/about" className="text-gray-700 font-medium hover:text-irctc-blue">About</Link>
             <Link to="/contact" className="text-gray-700 font-medium hover:text-irctc-blue">Contact</Link>
+            
+            {user && (
+              <Link to="/my-bookings" className="text-gray-700 font-medium hover:text-irctc-blue flex items-center">
+                <Ticket className="h-4 w-4 mr-1" />
+                My Bookings
+              </Link>
+            )}
           </nav>
 
           {/* User Actions */}
@@ -82,6 +89,14 @@ const Navbar = () => {
                             <div className="px-2 py-1 font-medium">
                               {user.email}
                             </div>
+                            {user && (
+                              <Link to="/my-bookings">
+                                <Button variant="ghost" className="w-full justify-start">
+                                  <Ticket className="mr-2 h-4 w-4" />
+                                  My Bookings
+                                </Button>
+                              </Link>
+                            )}
                             <Button variant="ghost" className="w-full justify-start" onClick={handleLogout} disabled={loading}>
                               <LogOut className="mr-2 h-4 w-4" />
                               {loading ? "Logging out..." : "Logout"}
@@ -129,6 +144,13 @@ const Navbar = () => {
             <Link to="/hotels" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Hotels</Link>
             <Link to="/about" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">About</Link>
             <Link to="/contact" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2">Contact</Link>
+            
+            {user && (
+              <Link to="/my-bookings" className="text-gray-700 font-medium hover:text-irctc-blue px-4 py-2 flex items-center">
+                <Ticket className="h-4 w-4 mr-2" />
+                My Bookings
+              </Link>
+            )}
             
             <div className="flex flex-col space-y-2 px-4 pt-2">
               {user ? (
