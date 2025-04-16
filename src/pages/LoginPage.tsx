@@ -1,14 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Train, Lock, Facebook, Mail } from 'lucide-react';
+import { Lock, Facebook, Mail } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
+import AuthHeader from '@/components/auth/AuthHeader';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -34,13 +34,10 @@ const LoginPage = () => {
       
       <main className="flex-grow container py-8 md:py-12">
         <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="bg-irctc-blue p-6 text-white text-center">
-            <div className="flex justify-center mb-4">
-              <Train className="h-12 w-12" />
-            </div>
-            <h1 className="text-2xl font-bold">Welcome Back</h1>
-            <p className="text-sm opacity-90">Login to your IRCTC account</p>
-          </div>
+          <AuthHeader 
+            title="Welcome Back" 
+            subtitle="Login to your IRCTC account" 
+          />
           
           <div className="p-6">
             <form onSubmit={handleLogin} className="space-y-4">
