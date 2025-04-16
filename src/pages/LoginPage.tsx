@@ -1,22 +1,20 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { useToast } from "@/components/ui/use-toast";
-import { Train, User, Lock, Facebook, Mail } from 'lucide-react';
+import { Train, Lock, Facebook, Mail } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useAuth } from '@/contexts/AuthContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-  const navigate = useNavigate();
   const location = useLocation();
+  const { signIn, loading } = useAuth();
 
   // Get email from location state if coming from signup
   useEffect(() => {
@@ -25,33 +23,9 @@ const LoginPage = () => {
     }
   }, [location.state]);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    
-    // Check local storage for user credentials
-    const storedUsers = JSON.parse(localStorage.getItem('irctcUsers') || '[]');
-    const user = storedUsers.find((u: any) => u.email === email);
-    
-    setTimeout(() => {
-      if (user && user.password === password) {
-        // Store logged in user info
-        localStorage.setItem('currentUser', JSON.stringify({ email: user.email, name: user.name }));
-        
-        toast({
-          title: "Login successful",
-          description: `Welcome back ${user.name || ''}!`,
-        });
-        navigate('/');
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Login failed",
-          description: "Invalid email or password. Please try again or sign up if you don't have an account.",
-        });
-      }
-      setIsLoading(false);
-    }, 1000);
+    await signIn(email, password);
   };
 
   return (
@@ -108,9 +82,9 @@ const LoginPage = () => {
               <Button 
                 type="submit" 
                 className="w-full bg-irctc-blue hover:bg-irctc-light-blue"
-                disabled={isLoading}
+                disabled={loading}
               >
-                {isLoading ? "Logging in..." : "Login"}
+                {loading ? "Logging in..." : "Login"}
               </Button>
             </form>
             

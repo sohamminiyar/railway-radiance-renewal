@@ -1,14 +1,14 @@
 
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { useToast } from "@/components/ui/use-toast";
 import { Train, User, Lock, Facebook, Mail, Phone } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useAuth } from '@/contexts/AuthContext';
 
 const SignupPage = () => {
   const [name, setName] = useState('');
@@ -16,58 +16,17 @@ const SignupPage = () => {
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-  const navigate = useNavigate();
-
-  const handleSignup = (e: React.FormEvent) => {
+  const { signUp, loading } = useAuth();
+  
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
     if (password !== confirmPassword) {
-      toast({
-        variant: "destructive",
-        title: "Passwords don't match",
-        description: "Please make sure your passwords match.",
-      });
       return;
     }
     
-    setIsLoading(true);
-    
-    // Save user to localStorage
-    const newUser = { name, email, mobile, password };
-    
-    // Get existing users or initialize empty array
-    const existingUsers = JSON.parse(localStorage.getItem('irctcUsers') || '[]');
-    
-    // Check if user with this email already exists
-    const userExists = existingUsers.some((user: any) => user.email === email);
-    
-    if (userExists) {
-      toast({
-        variant: "destructive",
-        title: "Email already in use",
-        description: "This email is already registered. Please login instead.",
-      });
-      setIsLoading(false);
-      return;
-    }
-    
-    // Add new user and save back to localStorage
-    existingUsers.push(newUser);
-    localStorage.setItem('irctcUsers', JSON.stringify(existingUsers));
-    
-    setTimeout(() => {
-      toast({
-        title: "Account created",
-        description: "Welcome to IRCTC! You can now login with your credentials.",
-      });
-      
-      // Navigate to login with email pre-filled
-      navigate('/login', { state: { email } });
-      setIsLoading(false);
-    }, 1000);
+    await signUp(email, password, { name, mobile });
   };
 
   return (
@@ -164,9 +123,9 @@ const SignupPage = () => {
               <Button 
                 type="submit" 
                 className="w-full bg-irctc-blue hover:bg-irctc-light-blue"
-                disabled={isLoading}
+                disabled={loading}
               >
-                {isLoading ? "Creating account..." : "Create Account"}
+                {loading ? "Creating account..." : "Create Account"}
               </Button>
             </form>
             
